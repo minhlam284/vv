@@ -1,0 +1,33 @@
+VALID: normalized_event_sample.json validates against normalized_event_schema.json after vocabulary alignment.
+
+Schema enum coverage by vocabulary.yaml:
+- phase: schema_values=6, vocab_values=6, missing_from_vocab=[], extra_in_vocab=[]
+- action_type: schema_values=16, vocab_values=16, missing_from_vocab=[], extra_in_vocab=[]
+- effect_type: schema_values=13, vocab_values=13, missing_from_vocab=[], extra_in_vocab=[]
+- target_resource: schema_values=19, vocab_values=19, missing_from_vocab=[], extra_in_vocab=[]
+- status: schema_values=9, vocab_values=9, missing_from_vocab=[], extra_in_vocab=[]
+- error_type: schema_values=13, vocab_values=13, missing_from_vocab=[], extra_in_vocab=[]
+- reversibility: schema_values=7, vocab_values=7, missing_from_vocab=[], extra_in_vocab=[]
+- taint_label: schema_values=9, vocab_values=9, missing_from_vocab=[], extra_in_vocab=[]
+- approval_status: schema_values=6, vocab_values=6, missing_from_vocab=[], extra_in_vocab=[]
+- decision_verdict: schema_values=4, vocab_values=4, missing_from_vocab=[], extra_in_vocab=[]
+- decision_route: schema_values=9, vocab_values=9, missing_from_vocab=[], extra_in_vocab=[]
+
+OVERALL: PASS - every non-null schema enum value is present in vocabulary.yaml.
+
+Canonical action mappings: 15 actions
+- send_email: effect=send, target=email, action_type=tool_call
+- retrieve_document: effect=retrieve, target=web, action_type=retrieval
+- delete_file: effect=delete, target=file, action_type=tool_call
+- write_memory: effect=write, target=memory, action_type=memory_op
+- read_memory: effect=read, target=memory, action_type=memory_op
+- read_calendar: effect=read, target=calendar, action_type=tool_call
+- write_calendar: effect=write, target=calendar, action_type=tool_call
+- read_file: effect=read, target=file, action_type=tool_call
+- write_file: effect=write, target=file, action_type=tool_call
+- execute_code: effect=execute, target=system_command, action_type=code_execution
+- call_api: effect=connect, target=api, action_type=external_api_call
+- query_database: effect=read, target=database, action_type=tool_call
+- send_message: effect=send, target=communication_edge, action_type=message
+- ask_user_approval: effect=approve, target=user, action_type=approval
+- update_policy: effect=rewrite, target=policy, action_type=policy_update

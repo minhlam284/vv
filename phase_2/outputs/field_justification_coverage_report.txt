@@ -1,0 +1,52 @@
+field_justification_table.csv rows: 46
+Schema fields checked: 46
+PASS - every enumerated schema field appears in field_justification_table.csv
+Extra justification-only fields: none
+
+Checked schema paths:
+- action_name
+- action_type
+- approval
+- approval.approval_event
+- approval.approved_by
+- approval.exists
+- approval.status
+- approval.target
+- decision
+- decision.missing_evidence
+- decision.reason
+- decision.route
+- decision.verdict
+- effect_type
+- error_type
+- event_id
+- events
+- input_refs
+- metadata
+- output_ref
+- parent_event
+- phase
+- policy
+- policy.allowed_action_set
+- policy.policy_version
+- post_state
+- pre_state
+- provenance
+- raw_event_ref
+- reversibility
+- schema_version
+- status
+- step_id
+- taint
+- taint.causal_path
+- taint.declassification_event
+- taint.label
+- taint.reason
+- taint.sanitizer_status
+- taint.source
+- taint.validator_status
+- target_resource
+- timestamp
+- tool_output
+- trace_id
+- typed_args

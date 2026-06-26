@@ -1,0 +1,313 @@
+schema_version: '0.1'
+description: Canonical vocabulary for C1 trace normalization. Values are aligned with
+  normalized_event_schema.json v0.1 and extended with common aliases for raw agent
+  traces.
+phase:
+- plan
+- before_action
+- after_action
+- state_change
+- finish
+- unknown
+action_type:
+- tool_call
+- memory_op
+- retrieval
+- external_api_call
+- message
+- approval
+- policy_update
+- final_response
+- agent_response
+- resource_access
+- code_execution
+- policy_decision
+- governance_action
+- tool_result
+- environment_update
+- unknown
+effect_type:
+- read
+- write
+- delete
+- send
+- execute
+- retrieve
+- connect
+- approve
+- block
+- rewrite
+- replan
+- none
+- unknown
+target_resource:
+- file
+- email
+- calendar
+- memory
+- database
+- web
+- api
+- user
+- policy
+- environment_variable
+- system_command
+- network_endpoint
+- agent_context
+- log
+- classified_data
+- communication_edge
+- model
+- none
+- unknown
+status:
+- pending
+- success
+- failed
+- blocked
+- rewritten
+- aborted
+- rejected
+- allowed
+- unknown
+error_type:
+- permission_denied
+- missing_approval
+- policy_violation
+- runtime_exception
+- tool_failure
+- sandbox_violation
+- taint_violation
+- sink_reached
+- anomaly_detected
+- evidence_missing
+- inconsistent_evidence
+- timeout
+- unknown
+taint_label:
+- trusted
+- untrusted
+- sensitive
+- unknown
+- user_controlled
+- prompt_derived
+- retrieval_derived
+- classified
+- sanitized
+approval_status:
+- approved
+- rejected
+- missing
+- unknown
+- expired
+- not_required
+reversibility:
+- easy
+- hard
+- irreversible
+- unknown
+- reversible
+- compensatable
+- retryable
+decision_verdict:
+- safe
+- violation
+- unknown
+- inconsistent
+decision_route:
+- allow
+- block
+- abort
+- retry
+- replan
+- rewrite
+- ask_user
+- escalate
+- log_only
+normalization_notes:
+- C1 should map framework-specific raw names to canonical action_name labels before
+  deriving effect_type and target_resource.
+- For example, sendEmail, gmail_send, email.send, and mcp.gmail.send should normalize
+  to send_email.
+- If a raw value cannot be mapped with confidence, use unknown for enum fields and
+  preserve the original value in metadata/raw_event_ref.
+- Vocabulary validation is intentionally separate from C2 rule completeness. Missing
+  evidence should lead to UNKNOWN in C2, not schema rejection.
+action_name_aliases:
+  send_email:
+  - sendEmail
+  - gmail_send
+  - email.send
+  - mcp.gmail.send
+  - send_email
+  - gmail.send_message
+  retrieve_document:
+  - retrieve
+  - search_docs
+  - vector_search
+  - rag.retrieve
+  - retrieval.search
+  - document.retrieve
+  delete_file:
+  - deleteFile
+  - file.delete
+  - fs.unlink
+  - rm_file
+  - mcp.fs.delete
+  - delete_file
+  write_memory:
+  - memory.write
+  - save_memory
+  - store_memory
+  - memory_upsert
+  - long_term_memory.write
+  - write_memory
+  read_memory:
+  - memory.read
+  - load_memory
+  - recall_memory
+  - memory_search
+  - long_term_memory.read
+  - read_memory
+  read_calendar:
+  - calendar.read
+  - get_events
+  - list_calendar_events
+  - gcal.search_events
+  - readCalendar
+  - read_calendar
+  write_calendar:
+  - calendar.create
+  - create_event
+  - gcal.create_event
+  - calendar.update
+  - writeCalendar
+  - write_calendar
+  read_file:
+  - readFile
+  - file.read
+  - fs.readFile
+  - open_file
+  - mcp.fs.read
+  - read_file
+  write_file:
+  - writeFile
+  - file.write
+  - fs.writeFile
+  - save_file
+  - mcp.fs.write
+  - write_file
+  execute_code:
+  - python.run
+  - PythonREPL
+  - exec
+  - eval
+  - subprocess.run
+  - execute_code
+  - code_interpreter.run
+  call_api:
+  - httpGet
+  - httpPost
+  - requests.get
+  - requests.post
+  - api.call
+  - external_api.call
+  - call_api
+  query_database:
+  - sql.query
+  - sqlite3.execute
+  - database.query
+  - db.select
+  - query_database
+  - run_sql
+  send_message:
+  - sendMessage
+  - chat.send
+  - slack.postMessage
+  - message.send
+  - mcp.slack.send
+  - send_message
+  ask_user_approval:
+  - ask_approval
+  - request_user_confirmation
+  - approval.request
+  - human_review
+  - user.confirm
+  - ask_user_approval
+  update_policy:
+  - policy.update
+  - set_policy
+  - capability.grant
+  - manifest.update
+  - allowed_action_set.update
+  - update_policy
+effect_mapping:
+  send_email: send
+  retrieve_document: retrieve
+  delete_file: delete
+  write_memory: write
+  read_memory: read
+  read_calendar: read
+  write_calendar: write
+  read_file: read
+  write_file: write
+  execute_code: execute
+  call_api: connect
+  query_database: read
+  send_message: send
+  ask_user_approval: approve
+  update_policy: rewrite
+target_mapping:
+  send_email: email
+  retrieve_document: web
+  delete_file: file
+  write_memory: memory
+  read_memory: memory
+  read_calendar: calendar
+  write_calendar: calendar
+  read_file: file
+  write_file: file
+  execute_code: system_command
+  call_api: api
+  query_database: database
+  send_message: communication_edge
+  ask_user_approval: user
+  update_policy: policy
+action_type_mapping:
+  send_email: tool_call
+  retrieve_document: retrieval
+  delete_file: tool_call
+  write_memory: memory_op
+  read_memory: memory_op
+  read_calendar: tool_call
+  write_calendar: tool_call
+  read_file: tool_call
+  write_file: tool_call
+  execute_code: code_execution
+  call_api: external_api_call
+  query_database: tool_call
+  send_message: message
+  ask_user_approval: approval
+  update_policy: policy_update
+normalization_examples:
+- raw_action_name: sendEmail
+  canonical_action_name: send_email
+  action_type: tool_call
+  effect_type: send
+  target_resource: email
+- raw_action_name: mcp.gmail.send
+  canonical_action_name: send_email
+  action_type: tool_call
+  effect_type: send
+  target_resource: email
+- raw_action_name: rag.retrieve
+  canonical_action_name: retrieve_document
+  action_type: retrieval
+  effect_type: retrieve
+  target_resource: web
+canonical_aliases:
+  approval: governance_action
+  policy_update: policy_decision
+  final_response: agent_response
+  easy: reversible
+  policy: agent_context

@@ -1,0 +1,568 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/vv/normalized_event_schema_v0_1.json",
+  "title": "V&V Normalized Event Trace Schema v0.1",
+  "description": "Schema v0.1 for rule-driven normalized event streams. Required core fields are always present. Nullable core fields may be null when not applicable. Optional evidence slots are included only when extracted by adapters or required by C2 rules.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trace_id",
+    "schema_version",
+    "events"
+  ],
+  "properties": {
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/normalized_event"
+      }
+    }
+  },
+  "$defs": {
+    "json_value": {
+      "description": "Any JSON value.",
+      "type": [
+        "object",
+        "array",
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "null"
+      ]
+    },
+    "string_or_null": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "id_ref_or_null": {
+      "description": "Reference to another event/output/source id, or null.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "id_ref_list_or_null": {
+      "description": "List of event/output/source references, or null when no input references exist.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      ]
+    },
+    "typed_args": {
+      "description": "Structured action arguments. Empty object when no arguments are available.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/json_value"
+      }
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "plan",
+        "before_action",
+        "after_action",
+        "state_change",
+        "finish",
+        "unknown"
+      ]
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "tool_call",
+        "external_api_call",
+        "memory_op",
+        "retrieval",
+        "message",
+        "agent_response",
+        "resource_access",
+        "code_execution",
+        "policy_decision",
+        "governance_action",
+        "tool_result",
+        "environment_update",
+        "unknown"
+      ]
+    },
+    "effect_type_nullable": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "read",
+        "write",
+        "delete",
+        "send",
+        "execute",
+        "retrieve",
+        "connect",
+        "approve",
+        "block",
+        "rewrite",
+        "replan",
+        "none",
+        "unknown",
+        null
+      ]
+    },
+    "target_resource_nullable": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "email",
+        "file",
+        "calendar",
+        "memory",
+        "database",
+        "web",
+        "api",
+        "environment_variable",
+        "system_command",
+        "network_endpoint",
+        "agent_context",
+        "log",
+        "classified_data",
+        "communication_edge",
+        "user",
+        "model",
+        "none",
+        "unknown",
+        null
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "success",
+        "failed",
+        "blocked",
+        "aborted",
+        "rejected",
+        "allowed",
+        "rewritten",
+        "unknown"
+      ]
+    },
+    "error_type_nullable": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "permission_denied",
+        "missing_approval",
+        "policy_violation",
+        "runtime_exception",
+        "tool_failure",
+        "sandbox_violation",
+        "taint_violation",
+        "sink_reached",
+        "anomaly_detected",
+        "evidence_missing",
+        "inconsistent_evidence",
+        "timeout",
+        "unknown",
+        null
+      ]
+    },
+    "reversibility_nullable": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "reversible",
+        "irreversible",
+        "compensatable",
+        "retryable",
+        "hard",
+        "unknown",
+        null
+      ]
+    },
+    "provenance_slot": {
+      "description": "Optional provenance evidence. Can be a list of source ids/records, a provenance object, or null when explicitly unknown.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/$defs/json_value"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/json_value"
+          }
+        }
+      ]
+    },
+    "taint_slot": {
+      "description": "Optional taint evidence for source/trust/sensitivity labels.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "trusted",
+            "untrusted",
+            "user_controlled",
+            "prompt_derived",
+            "retrieval_derived",
+            "classified",
+            "sensitive",
+            "sanitized",
+            "unknown",
+            null
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sanitizer_status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validator_status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "declassification_event": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "causal_path": {
+          "$ref": "#/$defs/id_ref_list_or_null"
+        }
+      }
+    },
+    "approval_slot": {
+      "description": "Optional approval evidence for permission and temporal rules.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "exists",
+        "status",
+        "target",
+        "approved_by",
+        "approval_event"
+      ],
+      "properties": {
+        "exists": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "approved",
+            "rejected",
+            "missing",
+            "unknown",
+            "expired",
+            "not_required",
+            null
+          ]
+        },
+        "target": {
+          "$ref": "#/$defs/json_value"
+        },
+        "approved_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approval_event": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "policy_slot": {
+      "description": "Optional policy/capability evidence.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "policy_version",
+        "allowed_action_set"
+      ],
+      "properties": {
+        "policy_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allowed_action_set": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/$defs/json_value"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "decision_slot": {
+      "description": "Optional verifier/governance decision evidence.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "verdict",
+        "route"
+      ],
+      "properties": {
+        "verdict": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "safe",
+            "violation",
+            "unknown",
+            "inconsistent",
+            null
+          ]
+        },
+        "route": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "allow",
+            "block",
+            "abort",
+            "retry",
+            "replan",
+            "rewrite",
+            "ask_user",
+            "escalate",
+            "log_only",
+            null
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "missing_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "metadata_slot": {
+      "description": "Adapter/debug metadata that is not directly part of the verifier-neutral core.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/json_value"
+      }
+    },
+    "normalized_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "trace_id",
+        "step_id",
+        "timestamp",
+        "parent_event",
+        "phase",
+        "action_type",
+        "action_name",
+        "effect_type",
+        "target_resource",
+        "typed_args",
+        "tool_output",
+        "input_refs",
+        "output_ref",
+        "pre_state",
+        "post_state",
+        "status",
+        "error_type",
+        "reversibility",
+        "raw_event_ref"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "step_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timestamp": {
+          "description": "ISO-8601 timestamp, Unix/logical timestamp as string/number, or null.",
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "null"
+          ]
+        },
+        "parent_event": {
+          "$ref": "#/$defs/id_ref_or_null"
+        },
+        "phase": {
+          "$ref": "#/$defs/phase"
+        },
+        "action_type": {
+          "$ref": "#/$defs/action_type"
+        },
+        "action_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect_type": {
+          "$ref": "#/$defs/effect_type_nullable"
+        },
+        "target_resource": {
+          "$ref": "#/$defs/target_resource_nullable"
+        },
+        "typed_args": {
+          "$ref": "#/$defs/typed_args"
+        },
+        "tool_output": {
+          "$ref": "#/$defs/json_value"
+        },
+        "input_refs": {
+          "$ref": "#/$defs/id_ref_list_or_null"
+        },
+        "output_ref": {
+          "$ref": "#/$defs/id_ref_or_null"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance_slot"
+        },
+        "taint": {
+          "$ref": "#/$defs/taint_slot"
+        },
+        "approval": {
+          "$ref": "#/$defs/approval_slot"
+        },
+        "pre_state": {
+          "$ref": "#/$defs/json_value"
+        },
+        "post_state": {
+          "$ref": "#/$defs/json_value"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "error_type": {
+          "$ref": "#/$defs/error_type_nullable"
+        },
+        "reversibility": {
+          "$ref": "#/$defs/reversibility_nullable"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy_slot"
+        },
+        "decision": {
+          "$ref": "#/$defs/decision_slot"
+        },
+        "raw_event_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metadata": {
+          "$ref": "#/$defs/metadata_slot"
+        }
+      }
+    }
+  }
+}
