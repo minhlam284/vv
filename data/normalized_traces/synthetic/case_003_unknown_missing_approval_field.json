@@ -1,0 +1,174 @@
+{
+  "trace_id": "case_003",
+  "schema_version": "0.1",
+  "events": [
+    {
+      "event_id": "e_001",
+      "trace_id": "case_003",
+      "step_id": 1,
+      "timestamp": "t1",
+      "parent_event": null,
+      "phase": "plan",
+      "action_type": "message",
+      "action_name": "unknown",
+      "effect_type": null,
+      "target_resource": null,
+      "typed_args": {
+        "recipient": "partner@example.com",
+        "subject": "Follow-up"
+      },
+      "tool_output": null,
+      "input_refs": null,
+      "output_ref": null,
+      "pre_state": null,
+      "post_state": null,
+      "status": "success",
+      "error_type": null,
+      "reversibility": null,
+      "raw_event_ref": "e_001",
+      "provenance": null,
+      "taint": null,
+      "approval": null,
+      "policy": null,
+      "decision": null,
+      "metadata": {
+        "raw_action_name": "request_send_email",
+        "normalization_warnings": [
+          "unknown_action_name"
+        ],
+        "raw_event_type": "user_message",
+        "evidence_extractor": "v0.1"
+      }
+    },
+    {
+      "event_id": "e_002",
+      "trace_id": "case_003",
+      "step_id": 2,
+      "timestamp": "t2",
+      "parent_event": "e_001",
+      "phase": "plan",
+      "action_type": "message",
+      "action_name": "unknown",
+      "effect_type": null,
+      "target_resource": null,
+      "typed_args": {
+        "instruction_ref": "e_001"
+      },
+      "tool_output": {
+        "next_action": "send_email"
+      },
+      "input_refs": [
+        "e_001"
+      ],
+      "output_ref": null,
+      "pre_state": null,
+      "post_state": null,
+      "status": "success",
+      "error_type": null,
+      "reversibility": null,
+      "raw_event_ref": "e_002",
+      "provenance": null,
+      "taint": null,
+      "approval": null,
+      "policy": null,
+      "decision": null,
+      "metadata": {
+        "raw_action_name": "plan_send_email",
+        "normalization_warnings": [
+          "unknown_action_name"
+        ],
+        "raw_event_type": "planner_step",
+        "evidence_extractor": "v0.1",
+        "evidence_warnings": [
+          "missing_provenance_for_input_ref:e_001"
+        ]
+      }
+    },
+    {
+      "event_id": "e_003",
+      "trace_id": "case_003",
+      "step_id": 3,
+      "timestamp": "t3",
+      "parent_event": "e_002",
+      "phase": "before_action",
+      "action_type": "tool_call",
+      "action_name": "send_email",
+      "effect_type": "send",
+      "target_resource": "email",
+      "typed_args": {
+        "recipient": "partner@example.com",
+        "subject": "Follow-up",
+        "body": "Following up on our meeting."
+      },
+      "tool_output": {
+        "message_id": "msg_003"
+      },
+      "input_refs": [
+        "e_001",
+        "e_002"
+      ],
+      "output_ref": "tool_result_e_003",
+      "pre_state": null,
+      "post_state": null,
+      "status": "success",
+      "error_type": null,
+      "reversibility": "hard",
+      "raw_event_ref": "e_003",
+      "provenance": [
+        "tool_result_e_003"
+      ],
+      "taint": null,
+      "approval": null,
+      "policy": null,
+      "decision": null,
+      "metadata": {
+        "raw_event_type": "tool_call",
+        "evidence_extractor": "v0.1"
+      }
+    },
+    {
+      "event_id": "e_004",
+      "trace_id": "case_003",
+      "step_id": 4,
+      "timestamp": "t4",
+      "parent_event": "e_003",
+      "phase": "finish",
+      "action_type": "agent_response",
+      "action_name": "unknown",
+      "effect_type": null,
+      "target_resource": null,
+      "typed_args": {
+        "tool_result_ref": "e_003"
+      },
+      "tool_output": {
+        "text": "Email sent successfully."
+      },
+      "input_refs": [
+        "e_003",
+        "tool_result_e_003"
+      ],
+      "output_ref": "final_answer_e_004",
+      "pre_state": null,
+      "post_state": null,
+      "status": "success",
+      "error_type": null,
+      "reversibility": null,
+      "raw_event_ref": "e_004",
+      "provenance": [
+        "final_answer_e_004"
+      ],
+      "taint": null,
+      "approval": null,
+      "policy": null,
+      "decision": null,
+      "metadata": {
+        "raw_action_name": "final_response",
+        "normalization_warnings": [
+          "unknown_action_name"
+        ],
+        "raw_event_type": "final_response",
+        "evidence_extractor": "v0.1"
+      }
+    }
+  ]
+}

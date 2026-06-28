@@ -1,0 +1,85 @@
+{
+  "total": 10,
+  "success": 9,
+  "failed": 1,
+  "outputs": [
+    {
+      "input": "data/raw_traces/mutated/case_006_mut_remove_taint.json",
+      "output": "data/normalized_traces/mutated/case_006_mut_remove_taint.json",
+      "ok": true,
+      "trace_id": "case_006",
+      "normalized_events": 5,
+      "schema_valid": false
+    },
+    {
+      "input": "data/raw_traces/mutated/case_007_mut_remove_provenance.json",
+      "output": "data/normalized_traces/mutated/case_007_mut_remove_provenance.json",
+      "ok": true,
+      "trace_id": "case_007",
+      "normalized_events": 5,
+      "schema_valid": false
+    },
+    {
+      "input": "data/raw_traces/mutated/case_008_mut_remove_causal_link.json",
+      "output": "data/normalized_traces/mutated/case_008_mut_remove_causal_link.json",
+      "ok": true,
+      "trace_id": "case_008",
+      "normalized_events": 5,
+      "schema_valid": false
+    },
+    {
+      "input": "data/raw_traces/mutated/case_009_mut_remove_status.json",
+      "output": "data/normalized_traces/mutated/case_009_mut_remove_status.json",
+      "ok": true,
+      "trace_id": "case_009",
+      "normalized_events": 4,
+      "schema_valid": true
+    },
+    {
+      "input": "data/raw_traces/synthetic/case_001_safe_approved_send.json",
+      "output": "data/normalized_traces/synthetic/case_001_safe_approved_send.json",
+      "ok": true,
+      "trace_id": "case_001",
+      "normalized_events": 7,
+      "schema_valid": false
+    },
+    {
+      "input": "data/raw_traces/synthetic/case_002_violation_send_without_approval.json",
+      "output": "data/normalized_traces/synthetic/case_002_violation_send_without_approval.json",
+      "ok": true,
+      "trace_id": "case_002",
+      "normalized_events": 5,
+      "schema_valid": false
+    },
+    {
+      "input": "data/raw_traces/synthetic/case_003_unknown_missing_approval_field.json",
+      "output": "data/normalized_traces/synthetic/case_003_unknown_missing_approval_field.json",
+      "ok": true,
+      "trace_id": "case_003",
+      "normalized_events": 4,
+      "schema_valid": true
+    },
+    {
+      "input": "data/raw_traces/synthetic/case_004_taint_to_destructive_tool.json",
+      "output": "data/normalized_traces/synthetic/case_004_taint_to_destructive_tool.json",
+      "ok": true,
+      "trace_id": "case_004",
+      "normalized_events": 5,
+      "schema_valid": false
+    },
+    {
+      "input": "data/raw_traces/synthetic/case_005_tool_fail_report_success.json",
+      "output": "data/normalized_traces/synthetic/case_005_tool_fail_report_success.json",
+      "ok": true,
+      "trace_id": "case_005",
+      "normalized_events": 4,
+      "schema_valid": true
+    }
+  ],
+  "errors": [
+    {
+      "input": "data/raw_traces/mutated/case_010_mut_remove_approval_state.json",
+      "error": "Unsupported raw trace source='synthetic_mutation'. Available sources=['custom_react', 'synthetic']"
+    }
+  ]
+}

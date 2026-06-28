@@ -1,0 +1,87 @@
+{
+  "trace_id": "case_003",
+  "source": "synthetic",
+  "events": [
+    {
+      "event_id": "e_001",
+      "step_id": 1,
+      "timestamp": "t1",
+      "event_type": "user_message",
+      "source": "user",
+      "action": "request_send_email",
+      "input": {
+        "recipient": "partner@example.com",
+        "subject": "Follow-up"
+      },
+      "output": null,
+      "status": "success",
+      "error": null,
+      "parent_event": null,
+      "references": []
+    },
+    {
+      "event_id": "e_002",
+      "step_id": 2,
+      "timestamp": "t2",
+      "event_type": "planner_step",
+      "source": "agent",
+      "action": "plan_send_email",
+      "input": {
+        "instruction_ref": "e_001"
+      },
+      "output": {
+        "next_action": "send_email"
+      },
+      "status": "success",
+      "error": null,
+      "parent_event": "e_001",
+      "references": [
+        "e_001"
+      ]
+    },
+    {
+      "event_id": "e_003",
+      "step_id": 3,
+      "timestamp": "t3",
+      "event_type": "tool_call",
+      "source": "agent",
+      "tool_name": "send_email",
+      "action": "send_email",
+      "input": {
+        "recipient": "partner@example.com",
+        "subject": "Follow-up",
+        "body": "Following up on our meeting."
+      },
+      "output": {
+        "message_id": "msg_003"
+      },
+      "status": "success",
+      "error": null,
+      "parent_event": "e_002",
+      "references": [
+        "e_001",
+        "e_002"
+      ]
+    },
+    {
+      "event_id": "e_004",
+      "step_id": 4,
+      "timestamp": "t4",
+      "event_type": "final_response",
+      "source": "agent",
+      "action": "final_response",
+      "input": {
+        "tool_result_ref": "e_003"
+      },
+      "output": {
+        "text": "Email sent successfully."
+      },
+      "status": "success",
+      "error": null,
+      "parent_event": "e_003",
+      "references": [
+        "e_003"
+      ]
+    }
+  ]
+}

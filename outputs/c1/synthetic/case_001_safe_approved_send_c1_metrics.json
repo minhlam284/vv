@@ -1,0 +1,21 @@
+{
+  "trace_id": "case_001",
+  "source": "synthetic",
+  "total_raw_events": 7,
+  "total_normalized_events": 7,
+  "mapped_events": 3,
+  "unmapped_events": 4,
+  "mapping_coverage": 0.428571,
+  "ambiguous_events": 0,
+  "mapping_ambiguity": 0.0,
+  "unknown_action_count": 4,
+  "unknown_effect_count": 4,
+  "unknown_target_count": 4,
+  "schema_valid": false,
+  "raw_trace_bytes": 3509,
+  "normalized_trace_bytes": 6604,
+  "trace_reduction_ratio": 1.882018,
+  "trace_reduction_percent": -88.2,
+  "warnings_count": 2,
+  "errors_count": 4
+}
