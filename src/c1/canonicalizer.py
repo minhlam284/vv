@@ -190,7 +190,8 @@ class Canonicalizer:
         return CanonicalizationResult(trace=trace, report=report)
 
     def _select_adapter(self, source: str):
-        adapter_cls = self.adapter_registry.get(source)
+        lookup_source = "synthetic" if source == "synthetic_mutation" else source
+        adapter_cls = self.adapter_registry.get(lookup_source)
         if adapter_cls is None:
             raise AdapterSelectionError(
                 f"Unsupported raw trace source={source!r}. "

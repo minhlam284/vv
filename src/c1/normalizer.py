@@ -416,22 +416,26 @@ class Normalizer:
         # Prefer tool_name over action when both present and non-null
         raw_action_name: str | None = raw_tool_name or raw_action
 
-        canonical_action_name = self.vocab.normalize_action_name(raw_action_name)
-        if canonical_action_name == "unknown":
-            if raw_action_name:
-                meta["raw_action_name"] = raw_action_name
-                meta.setdefault("normalization_warnings", []).append(
-                    "unknown_action_name"
-                )
-            else:
-                meta.setdefault("normalization_warnings", []).append(
-                    "missing_action_name"
-                )
-
-
         # ── 3. phase / action_type from event_type ─────────────────────
         raw_event_type: str = raw_event.get("event_type") or "unknown"
         meta["raw_event_type"] = raw_event_type
+
+        canonical_action_name = self.vocab.normalize_action_name(raw_action_name)
+        
+        # Fallback for generic framework events that might have unpredictable raw action names
+        if canonical_action_name == "unknown":
+            if raw_event_type in {"user_message", "planner_step", "approval_request", "approval_response", "final_response", "tool_result"}:
+                canonical_action_name = raw_event_type
+            else:
+                if raw_action_name:
+                    meta["raw_action_name"] = raw_action_name
+                    meta.setdefault("normalization_warnings", []).append(
+                        "unknown_action_name"
+                    )
+                else:
+                    meta.setdefault("normalization_warnings", []).append(
+                        "missing_action_name"
+                    )
 
         phase, derived_action_type = _EVENT_TYPE_MAP.get(
             raw_event_type, ("unknown", "unknown")

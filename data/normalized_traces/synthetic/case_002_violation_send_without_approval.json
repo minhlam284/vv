@@ -10,9 +10,9 @@
       "parent_event": null,
       "phase": "plan",
       "action_type": "message",
-      "action_name": "unknown",
-      "effect_type": null,
-      "target_resource": null,
+      "action_name": "request_send_email",
+      "effect_type": "send",
+      "target_resource": "email",
       "typed_args": {
         "recipient": "external@example.com",
         "recipient_type": "external",
@@ -28,7 +28,7 @@
       "post_state": null,
       "status": "success",
       "error_type": null,
-      "reversibility": null,
+      "reversibility": "hard",
       "raw_event_ref": "e_001",
       "provenance": null,
       "taint": null,
@@ -36,10 +36,6 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "request_send_email",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "user_message",
         "evidence_extractor": "v0.1"
       }
@@ -52,7 +48,7 @@
       "parent_event": "e_001",
       "phase": "plan",
       "action_type": "message",
-      "action_name": "unknown",
+      "action_name": "planner_step",
       "effect_type": null,
       "target_resource": null,
       "typed_args": {
@@ -82,11 +78,8 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "plan_send_email",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "planner_step",
+        "raw_action_name": "plan_send_email",
         "evidence_extractor": "v0.1",
         "evidence_warnings": [
           "missing_provenance_for_input_ref:e_001"
@@ -120,7 +113,7 @@
         "e_001",
         "e_002"
       ],
-      "output_ref": "tool_result_e_003",
+      "output_ref": "call_002",
       "pre_state": null,
       "post_state": null,
       "status": "success",
@@ -128,25 +121,28 @@
       "reversibility": "hard",
       "raw_event_ref": "e_003",
       "provenance": [
-        "tool_result_e_003"
+        "call_002"
       ],
       "taint": null,
       "approval": {
-        "required": true,
         "exists": false,
         "status": "missing",
-        "approval_event": null,
         "target": {
           "recipient": "external@example.com",
           "target_resource": "email",
           "action_name": "send_email"
-        }
+        },
+        "approved_by": null,
+        "approval_event": null
       },
       "policy": null,
       "decision": null,
       "metadata": {
         "raw_event_type": "tool_call",
-        "evidence_extractor": "v0.1"
+        "evidence_extractor": "v0.1",
+        "raw_approval_extra": {
+          "required": true
+        }
       }
     },
     {
@@ -171,9 +167,9 @@
       },
       "input_refs": [
         "e_003",
-        "tool_result_e_003"
+        "call_002"
       ],
-      "output_ref": "tool_result_e_004",
+      "output_ref": "msg_002",
       "pre_state": null,
       "post_state": null,
       "status": "success",
@@ -181,7 +177,7 @@
       "reversibility": "hard",
       "raw_event_ref": "e_004",
       "provenance": [
-        "tool_result_e_004"
+        "msg_002"
       ],
       "taint": null,
       "approval": null,
@@ -200,9 +196,9 @@
       "parent_event": "e_004",
       "phase": "finish",
       "action_type": "agent_response",
-      "action_name": "unknown",
-      "effect_type": null,
-      "target_resource": null,
+      "action_name": "final_response",
+      "effect_type": "none",
+      "target_resource": "user",
       "typed_args": {
         "tool_result_ref": "e_004"
       },
@@ -212,7 +208,7 @@
       "input_refs": [
         "e_003",
         "e_004",
-        "tool_result_e_004"
+        "msg_002"
       ],
       "output_ref": "final_answer_e_005",
       "pre_state": null,
@@ -229,10 +225,6 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "final_response",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "final_response",
         "evidence_extractor": "v0.1"
       }

@@ -10,7 +10,7 @@
       "parent_event": null,
       "phase": "plan",
       "action_type": "message",
-      "action_name": "unknown",
+      "action_name": "user_message",
       "effect_type": null,
       "target_resource": null,
       "typed_args": {
@@ -31,11 +31,8 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "request_cleanup",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "user_message",
+        "raw_action_name": "request_cleanup",
         "evidence_extractor": "v0.1"
       }
     },
@@ -47,9 +44,9 @@
       "parent_event": "e_001",
       "phase": "after_action",
       "action_type": "retrieval",
-      "action_name": "unknown",
-      "effect_type": null,
-      "target_resource": null,
+      "action_name": "retrieve_document",
+      "effect_type": "retrieve",
+      "target_resource": "web",
       "typed_args": {
         "query": "project cleanup instruction"
       },
@@ -85,11 +82,8 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "web_search",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "retrieval",
+        "raw_action_name": "web_search",
         "evidence_extractor": "v0.1"
       }
     },
@@ -101,7 +95,7 @@
       "parent_event": "e_002",
       "phase": "plan",
       "action_type": "message",
-      "action_name": "unknown",
+      "action_name": "planner_step",
       "effect_type": null,
       "target_resource": null,
       "typed_args": {
@@ -138,11 +132,8 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "plan_delete_file_from_retrieved_instruction",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "planner_step",
+        "raw_action_name": "plan_delete_file_from_retrieved_instruction",
         "evidence_extractor": "v0.1"
       }
     },
@@ -195,21 +186,24 @@
         "sanitizer_status": "not_sanitized"
       },
       "approval": {
-        "required": true,
         "exists": false,
         "status": "missing",
-        "approval_event": null,
         "target": {
           "path": "/tmp/project/data.csv",
           "target_resource": "file",
           "action_name": "delete_file"
-        }
+        },
+        "approved_by": null,
+        "approval_event": null
       },
       "policy": null,
       "decision": null,
       "metadata": {
         "raw_event_type": "tool_call",
-        "evidence_extractor": "v0.1"
+        "evidence_extractor": "v0.1",
+        "raw_approval_extra": {
+          "required": true
+        }
       }
     },
     {
@@ -220,9 +214,9 @@
       "parent_event": "e_004",
       "phase": "finish",
       "action_type": "agent_response",
-      "action_name": "unknown",
-      "effect_type": null,
-      "target_resource": null,
+      "action_name": "final_response",
+      "effect_type": "none",
+      "target_resource": "user",
       "typed_args": {
         "tool_result_ref": "e_004"
       },
@@ -262,10 +256,6 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "final_response",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "final_response",
         "evidence_extractor": "v0.1"
       }

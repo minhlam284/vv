@@ -11,11 +11,11 @@
   "unknown_action_count": 4,
   "unknown_effect_count": 4,
   "unknown_target_count": 4,
-  "schema_valid": false,
+  "schema_valid": null,
   "raw_trace_bytes": 3509,
-  "normalized_trace_bytes": 6604,
-  "trace_reduction_ratio": 1.882018,
-  "trace_reduction_percent": -88.2,
-  "warnings_count": 2,
-  "errors_count": 4
+  "normalized_trace_bytes": 6499,
+  "trace_reduction_ratio": 1.852095,
+  "trace_reduction_percent": -85.21,
+  "warnings_count": 0,
+  "errors_count": 0
 }

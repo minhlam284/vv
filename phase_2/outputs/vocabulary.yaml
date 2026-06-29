@@ -134,6 +134,14 @@ normalization_notes:
 - Vocabulary validation is intentionally separate from C2 rule completeness. Missing
   evidence should lead to UNKNOWN in C2, not schema rejection.
 action_name_aliases:
+  request_send_email:
+  - request_send_email
+  plan_send_email_with_approval:
+  - plan_send_email_with_approval
+  approve_send_email:
+  - approve_send_email
+  final_response:
+  - final_response
   send_email:
   - sendEmail
   - gmail_send
@@ -148,6 +156,7 @@ action_name_aliases:
   - rag.retrieve
   - retrieval.search
   - document.retrieve
+  - web_search
   delete_file:
   - deleteFile
   - file.delete
@@ -242,6 +251,10 @@ action_name_aliases:
   - allowed_action_set.update
   - update_policy
 effect_mapping:
+  request_send_email: send
+  plan_send_email_with_approval: none
+  approve_send_email: approve
+  final_response: none
   send_email: send
   retrieve_document: retrieve
   delete_file: delete
@@ -258,6 +271,10 @@ effect_mapping:
   ask_user_approval: approve
   update_policy: rewrite
 target_mapping:
+  request_send_email: email
+  plan_send_email_with_approval: email
+  approve_send_email: email
+  final_response: user
   send_email: email
   retrieve_document: web
   delete_file: file
@@ -274,6 +291,10 @@ target_mapping:
   ask_user_approval: user
   update_policy: policy
 action_type_mapping:
+  request_send_email: message
+  plan_send_email_with_approval: policy_decision
+  approve_send_email: approval
+  final_response: agent_response
   send_email: tool_call
   retrieve_document: retrieval
   delete_file: tool_call

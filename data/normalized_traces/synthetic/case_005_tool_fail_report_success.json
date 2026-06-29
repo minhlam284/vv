@@ -10,7 +10,7 @@
       "parent_event": null,
       "phase": "plan",
       "action_type": "message",
-      "action_name": "unknown",
+      "action_name": "user_message",
       "effect_type": null,
       "target_resource": null,
       "typed_args": {
@@ -31,11 +31,8 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "request_delete_file",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "user_message",
+        "raw_action_name": "request_delete_file",
         "evidence_extractor": "v0.1"
       }
     },
@@ -126,9 +123,9 @@
       "parent_event": "e_003",
       "phase": "finish",
       "action_type": "agent_response",
-      "action_name": "unknown",
-      "effect_type": null,
-      "target_resource": null,
+      "action_name": "final_response",
+      "effect_type": "none",
+      "target_resource": "user",
       "typed_args": {
         "tool_result_ref": "tool_result_failed_001"
       },
@@ -158,10 +155,6 @@
       "policy": null,
       "decision": null,
       "metadata": {
-        "raw_action_name": "final_response",
-        "normalization_warnings": [
-          "unknown_action_name"
-        ],
         "raw_event_type": "final_response",
         "evidence_extractor": "v0.1"
       }

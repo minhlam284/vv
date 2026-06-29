@@ -56,7 +56,8 @@ def run_dataset(
     if raw_dir.exists():
         for raw_path in raw_dir.rglob("*.json"):
             stem = raw_path.stem
-            normalized_path = normalized_dir / f"{stem}.json"
+            rel_path = raw_path.relative_to(raw_dir)
+            normalized_path = normalized_dir / rel_path
             
             raw_trace = load_json(raw_path)
             normalized_trace = load_json(normalized_path) if normalized_path.exists() else {"trace_id": stem, "events": []}
