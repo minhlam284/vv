@@ -1,0 +1,4 @@
+trace_id,policy_id,evidence_field,event_ids,value
+case_001,P001,approval.status,e_001,
+case_001,P001,effect_type,e_002,
+case_003,P001,effect_type,e_002,

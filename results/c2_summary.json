@@ -1,0 +1,38 @@
+{
+  "trace_count": 2,
+  "policy_count": 1,
+  "verdict_counts": {
+    "SAFE": 1,
+    "VIOLATION": 0,
+    "UNKNOWN": 1,
+    "INCONSISTENT": 0
+  },
+  "preservation_counts": {
+    "COMPLETE": 1,
+    "INCOMPLETE": 1,
+    "NOT_APPLICABLE": 0,
+    "INCONSISTENT": 0
+  },
+  "missing_evidence_count": 1,
+  "missing_evidence_by_field": {
+    "approval.status": 1
+  },
+  "missing_evidence_by_policy": {
+    "P001": 1
+  },
+  "verdicts_by_policy": {
+    "P001": {
+      "SAFE": 1,
+      "UNKNOWN": 1
+    }
+  },
+  "traces_with_unknown": [
+    "case_003"
+  ],
+  "traces_with_violation": [],
+  "false_safe_guard": {
+    "unknown_count": 1,
+    "incomplete_preservation_count": 1,
+    "note": "Missing required evidence should be UNKNOWN/INCOMPLETE, not SAFE."
+  }
+}

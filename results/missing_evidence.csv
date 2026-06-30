@@ -1,0 +1,2 @@
+trace_id,policy_id,missing_field,event_id
+case_003,P001,approval.status,e_002

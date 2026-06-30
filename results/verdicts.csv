@@ -1,0 +1,3 @@
+trace_id,policy_id,verdict,reason
+case_001,P001,SAFE,approval exists before send
+case_003,P001,UNKNOWN,approval evidence missing

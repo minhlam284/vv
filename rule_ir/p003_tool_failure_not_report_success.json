@@ -1,0 +1,75 @@
+{
+  "policy_id": "P003",
+  "name": "tool_failure_not_report_success",
+  "description": "A failed tool result must not be reported as a successful final response.",
+  "version": "0.1",
+  "rule_class": [
+    "recovery_governance",
+    "provenance",
+    "temporal"
+  ],
+  "when": [
+    {
+      "field": "phase",
+      "op": "eq",
+      "value": "finish"
+    },
+    {
+      "field": "action_name",
+      "op": "eq",
+      "value": "final_response"
+    }
+  ],
+  "require": [
+    {
+      "type": "no_linked_failed_tool_claimed_success",
+      "conditions": [
+        {
+          "field": "input_refs",
+          "op": "exists"
+        },
+        {
+          "field": "parent_event",
+          "op": "exists"
+        }
+      ],
+      "metadata": {
+        "failed_tool_condition": "linked tool event has status == failed",
+        "violation_condition": "final response claims success while linked tool result failed",
+        "claim_source": "typed_args.text or metadata.final_claim"
+      }
+    },
+    {
+      "type": "tool_result_link_exists",
+      "conditions": [
+        {
+          "field": "input_refs",
+          "op": "exists"
+        },
+        {
+          "field": "output_ref",
+          "op": "exists"
+        }
+      ]
+    }
+  ],
+  "required_evidence": [
+    "status",
+    "error_type",
+    "tool_output",
+    "input_refs",
+    "output_ref",
+    "parent_event"
+  ],
+  "else": "violation",
+  "backend_hints": [
+    "python",
+    "ltl"
+  ],
+  "metadata": {
+    "prototype_policy": true,
+    "safe_condition": "Final response is linked to successful tool output or truthfully reports failure.",
+    "violation_condition": "A failed tool result is linked to a final response that claims success.",
+    "unknown_condition": "The final response cannot be linked to the relevant tool result."
+  }
+}

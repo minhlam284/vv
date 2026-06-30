@@ -1,0 +1,86 @@
+{
+  "policy_id": "P002",
+  "name": "no_untrusted_retrieval_to_destructive_tool",
+  "description": "Untrusted retrieval-derived data must not flow into destructive actions without approval, sanitization, validation, or blocking.",
+  "version": "0.1",
+  "rule_class": [
+    "taint",
+    "provenance",
+    "permission"
+  ],
+  "when": [
+    {
+      "field": "effect_type",
+      "op": "in",
+      "value": [
+        "delete",
+        "write",
+        "send",
+        "execute"
+      ]
+    },
+    {
+      "field": "input_refs",
+      "op": "exists"
+    }
+  ],
+  "require": [
+    {
+      "type": "no_untrusted_flow_to_sink",
+      "conditions": [
+        {
+          "field": "taint.label",
+          "op": "neq",
+          "value": "untrusted"
+        }
+      ],
+      "metadata": {
+        "alternative_safe_conditions": [
+          "decision.route == block",
+          "approval.status == approved",
+          "taint.sanitizer_status == sanitized",
+          "taint.validator_status == validated"
+        ]
+      }
+    },
+    {
+      "type": "causal_path_preserved",
+      "conditions": [
+        {
+          "field": "taint.causal_path",
+          "op": "exists"
+        },
+        {
+          "field": "provenance",
+          "op": "exists"
+        }
+      ]
+    }
+  ],
+  "required_evidence": [
+    "taint.label",
+    "taint.causal_path",
+    "provenance",
+    "input_refs",
+    "effect_type",
+    "target_resource"
+  ],
+  "else": "violation",
+  "backend_hints": [
+    "python",
+    "smt",
+    "taint_monitor"
+  ],
+  "metadata": {
+    "prototype_policy": true,
+    "destructive_effects": [
+      "delete",
+      "write",
+      "send",
+      "execute"
+    ],
+    "safe_condition": "The source is trusted, sanitized, validated, approved, or blocked before reaching the destructive sink.",
+    "violation_condition": "Untrusted retrieval-derived data reaches a destructive sink without approval or sanitization.",
+    "unknown_condition": "Taint, provenance, input_refs, or causal_path evidence is missing."
+  }
+}

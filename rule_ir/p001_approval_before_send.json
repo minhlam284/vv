@@ -1,0 +1,69 @@
+{
+  "policy_id": "P001",
+  "name": "approval_before_send",
+  "description": "External email send must have a prior approved approval event for the same target.",
+  "version": "0.1",
+  "rule_class": [
+    "permission",
+    "temporal"
+  ],
+  "when": [
+    {
+      "field": "effect_type",
+      "op": "eq",
+      "value": "send"
+    },
+    {
+      "field": "target_resource",
+      "op": "eq",
+      "value": "email"
+    }
+  ],
+  "require": [
+    {
+      "type": "previous_event_exists",
+      "conditions": [
+        {
+          "field": "approval.exists",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "field": "approval.status",
+          "op": "eq",
+          "value": "approved"
+        },
+        {
+          "field": "target_resource",
+          "op": "eq",
+          "value": "email"
+        }
+      ],
+      "same_target": true,
+      "target_field": "approval.target",
+      "reference_field": "typed_args.recipient",
+      "temporal_scope": "before_trigger"
+    }
+  ],
+  "required_evidence": [
+    "effect_type",
+    "target_resource",
+    "approval.exists",
+    "approval.status",
+    "approval.target",
+    "step_id",
+    "input_refs"
+  ],
+  "else": "violation",
+  "backend_hints": [
+    "python",
+    "ltl",
+    "smt"
+  ],
+  "metadata": {
+    "prototype_policy": true,
+    "safe_condition": "An approved approval event exists before the send event and binds to the same email target.",
+    "violation_condition": "The send event occurs without prior approval for the same target.",
+    "unknown_condition": "Approval or temporal evidence is missing."
+  }
+}
